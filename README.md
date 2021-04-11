@@ -1,5 +1,4 @@
-# shlomi_project
-
+# Dialer project
 A new Flutter application.
 
 ## Getting Started
