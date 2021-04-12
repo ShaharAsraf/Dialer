@@ -11,7 +11,7 @@ class SignUpFinish extends StatefulWidget {
 class _SignUpFinishState extends State<SignUpFinish> {
   List<String> Countries = ['Israel', 'US', 'Eng', 'France'];
   List<String> Numbers = ['054311313', '054334313', '0541212312', '052872313'];
-
+  bool checkBoxValue = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +67,17 @@ class _SignUpFinishState extends State<SignUpFinish> {
                 ),
               ),
               SizedBox(height: 10),
+              CheckboxListTile(
+                title: Text(
+                    'By joining Dialer you agree to our Terms & Conditions and Privacy Policy.'),
+                controlAffinity: ListTileControlAffinity.leading,
+                value: checkBoxValue,
+                onChanged: (newVal) {
+                  setState(() {
+                    checkBoxValue = newVal;
+                  });
+                },
+              ),
             ],
           ),
         ), /* add child content here */

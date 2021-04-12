@@ -215,7 +215,14 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                       });
                     },
                   ),
-                  SizedBox(height: 30),
+                  check3 ? GetSwitch('Monday', hours) : Container(),
+                  check3 ? GetSwitch('Thursday', hours) : Container(),
+                  check3 ? GetSwitch('Wednesday', hours) : Container(),
+                  check3 ? GetSwitch('Tuesday', hours) : Container(),
+                  check3 ? GetSwitch('Friday', hours) : Container(),
+                  check3 ? GetSwitch('Saturday', hours) : Container(),
+                  check3 ? GetSwitch('Sunday', hours) : Container(),
+                  SizedBox(height: 10),
                   UnicornOutlineButton(
                     strokeWidth: 2,
                     radius: 6,
@@ -231,6 +238,48 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
             ),
           ), /* add child content here */
         ),
+      ),
+    );
+  }
+}
+
+class GetSwitch extends StatefulWidget {
+  String title;
+  List<String> hours;
+  bool check = false;
+  GetSwitch(this.title, this.hours);
+  @override
+  _GetSwitchState createState() => _GetSwitchState();
+}
+
+class _GetSwitchState extends State<GetSwitch> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      child: Column(
+        children: [
+          ListTile(
+            tileColor: Color(0xFFFAFAFA),
+            title: Text(widget.title),
+            trailing: CupertinoSwitch(
+              activeColor: Color(0xFF5F25DD),
+              value: widget.check,
+              onChanged: (bool value) {
+                setState(() {
+                  widget.check = value;
+                });
+              },
+            ),
+            onTap: () {
+              setState(() {
+                widget.check = !widget.check;
+              });
+            },
+          ),
+          widget.check ? GetHours(hours: widget.hours) : Container(),
+        ],
       ),
     );
   }
