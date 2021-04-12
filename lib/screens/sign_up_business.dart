@@ -40,7 +40,8 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/homeBG.png"),
-              fit: BoxFit.cover,
+              alignment: Alignment.topCenter,
+              fit: BoxFit.contain,
             ),
           ),
           child: SafeArea(
@@ -48,24 +49,10 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                icon:
-                                    Icon(Icons.arrow_back_ios, color: mainGrey),
-                              ),
-                              Text(
-                                'Back',
-                                style: kSecondaryText,
-                              ), // You can
-                            ],
-                          ),
-                        ),
+                        NewBackButton(),
                         Text(
                           'Create your business',
                           style: kMainText,
@@ -88,7 +75,13 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                                     color: Color(0xFFB0B0B0),
                                   ),
                                   onPressed: getImage)
-                              : Image.file(_image),
+                              : CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ).image,
+                                ),
                           padding: EdgeInsets.all(22.0),
                           shape: CircleBorder(),
                         ),
@@ -222,16 +215,30 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                   check3 ? GetSwitch('Friday', hours) : Container(),
                   check3 ? GetSwitch('Saturday', hours) : Container(),
                   check3 ? GetSwitch('Sunday', hours) : Container(),
-                  SizedBox(height: 10),
-                  UnicornOutlineButton(
-                    strokeWidth: 2,
-                    radius: 6,
-                    gradient: LinearGradient(
-                        colors: [Color(0xFF5F25DD), Color(0xFFFD67B0)]),
-                    child: Text('NEXT', style: kPurpleButtonText),
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignUpFinish().id);
-                    },
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        color: Colors.white,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
+                          child: UnicornOutlineButton(
+                            strokeWidth: 2,
+                            radius: 6,
+                            gradient: LinearGradient(
+                                colors: [Color(0xFF5F25DD), Color(0xFFFD67B0)]),
+                            child: Text('NEXT', style: kPurpleButtonText),
+                            onPressed: () {
+                              //Navigator.pushNamed(context, SignUpFinish().id);
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => SignUpFinish()));
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -332,6 +339,7 @@ class GetTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         hintText: placeholder,
         hintStyle: kSingupPlaceHolder,

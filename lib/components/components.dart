@@ -42,6 +42,28 @@ class HomePageButton {
   }
 }
 
+class NewBackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Row(
+        children: [
+          Icon(
+            Icons.arrow_back_ios,
+            color: mainGrey,
+          ),
+
+          Text(
+            'Back',
+            style: kSecondaryText,
+          ), // You can
+        ],
+      ),
+    );
+  }
+}
+
 class UnicornOutlineButton extends StatelessWidget {
   final _GradientPainter _painter;
   final Widget _child;
@@ -213,6 +235,24 @@ class _GetListState extends State<GetList> {
           }).toList(),
         ),
       ),
+    );
+  }
+}
+
+class TextFieldTitle extends StatelessWidget {
+  TextFieldTitle(this.title, this.style);
+  final String title;
+  final TextStyle style;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: style,
+        ),
+      ],
     );
   }
 }

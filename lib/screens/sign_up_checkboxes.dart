@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shlomi_project/constants.dart';
 import 'package:shlomi_project/components/components.dart';
@@ -41,14 +42,20 @@ class _MyHomePageState extends State<MyHomePage> {
                       title: 'Business',
                       imageSource: 'assets/homePageButton1.png',
                       onPressed: () {
-                        Navigator.pushNamed(context, SignUpBusiness().id);
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => SignUpBusiness()));
                       }).getButton(),
                   HomePageButton(
                       bgColor: Color(0xFFE7E1F3),
                       title: 'Ordinary',
                       imageSource: 'assets/homePageButton2.png',
                       onPressed: () {
-                        Navigator.pushNamed(context, SignUpBusiness().id);
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => SignUpBusiness()));
                       }).getButton(),
                   SizedBox(height: 170),
                   Text(

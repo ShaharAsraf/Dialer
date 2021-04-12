@@ -37,3 +37,33 @@ const kPurpleButtonText = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
+
+const kCountryText = TextStyle(
+  color: Color(0xFF858585),
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+);
+
+const kNumberText = TextStyle(
+  color: Color(0xFF666666),
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+);
+
+const kNumberPriceText = TextStyle(
+  color: Color(0xFF666666),
+  fontWeight: FontWeight.w400,
+  fontSize: 10,
+);
+
+const kGold = TextStyle(
+  color: Color(0xFFFFDF65),
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+);
+
+const kSilver = TextStyle(
+  color: Color(0xFFC4C4C4),
+  fontWeight: FontWeight.w500,
+  fontSize: 14,
+);
