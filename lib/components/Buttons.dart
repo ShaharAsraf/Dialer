@@ -64,50 +64,6 @@ class NewBackButton extends StatelessWidget {
   }
 }
 
-class UnicornOutlineButton extends StatelessWidget {
-  final _GradientPainter _painter;
-  final Widget _child;
-  final VoidCallback _callback;
-  final double _radius;
-
-  UnicornOutlineButton({
-    @required double strokeWidth,
-    @required double radius,
-    @required Gradient gradient,
-    @required Widget child,
-    @required VoidCallback onPressed,
-  })  : this._painter = _GradientPainter(
-            strokeWidth: strokeWidth, radius: radius, gradient: gradient),
-        this._child = child,
-        this._callback = onPressed,
-        this._radius = radius;
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _painter,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: _callback,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(_radius),
-          onTap: _callback,
-          child: Container(
-            constraints: BoxConstraints(minWidth: 350, minHeight: 48),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _child,
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class _GradientPainter extends CustomPainter {
   final Paint _paint = Paint();
   final double radius;
@@ -192,67 +148,50 @@ class RaisedGradientButton extends StatelessWidget {
   }
 }
 
-class GetList extends StatefulWidget {
-  String dropdownPlaceholder;
-  String dropdownValue;
-  List<String> list;
-  GetList(this.dropdownPlaceholder, this.list);
+class BorderGradientButton extends StatelessWidget {
+  final Widget child;
+  final Gradient gradient;
+  final Color backround;
+  final double width;
+  final double height;
+  final Function onPressed;
 
-  @override
-  _GetListState createState() => _GetListState();
-}
+  const BorderGradientButton({
+    Key key,
+    @required this.child,
+    this.gradient,
+    this.backround,
+    this.width = double.infinity,
+    this.height = 50.0,
+    this.onPressed,
+  }) : super(key: key);
 
-class _GetListState extends State<GetList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      width: width,
+      height: 50.0,
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Color(0xFFE9E9E9)),
-        borderRadius: BorderRadius.circular(6),
+        gradient: gradient,
+        borderRadius: BorderRadius.circular(6.0),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          isExpanded: true,
-          hint: Text(widget.dropdownPlaceholder),
-          dropdownColor: Colors.white,
-          icon: const Icon(Icons.keyboard_arrow_down),
-          iconSize: 24,
-          elevation: 16,
-          style: kSingupPlaceHolder,
-          onChanged: (String newValue) {
-            setState(() {
-              widget.dropdownValue = newValue;
-              widget.dropdownPlaceholder = widget.dropdownValue;
-            });
-          },
-          items: widget.list.map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: backround,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+                onTap: onPressed,
+                child: Center(
+                  child: child,
+                )),
+          ),
         ),
       ),
-    );
-  }
-}
-
-class TextFieldTitle extends StatelessWidget {
-  TextFieldTitle(this.title, this.style);
-  final String title;
-  final TextStyle style;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: style,
-        ),
-      ],
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_layouts/flutter_layouts.dart';
 import 'package:shlomi_project/constants.dart';
-import 'package:shlomi_project/components/components.dart';
+import 'package:shlomi_project/components/Buttons.dart';
+import 'package:shlomi_project/components/RestComponents.dart';
 import 'package:shlomi_project/screens/sign_up_finish.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -34,86 +36,103 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/homeBG.png"),
-              alignment: Alignment.topCenter,
-              fit: BoxFit.contain,
+    return Footer(
+      body: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/homeBG.png"),
+                alignment: Alignment.topCenter,
+                fit: BoxFit.fitWidth,
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Column(
-                      children: [
-                        NewBackButton(),
-                        Text(
-                          'Create your business',
-                          style: kMainText,
-                        ),
-                        Text(
-                          'account',
-                          style: kMainText,
-                        ),
-                        SizedBox(height: 10),
+            child: SafeArea(
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        children: [
+                          NewBackButton(),
+                          Text(
+                            'Create your business',
+                            style: kMainText,
+                          ),
+                          Text(
+                            'account',
+                            style: kMainText,
+                          ),
+                          SizedBox(height: 10),
 
-                        RawMaterialButton(
-                          onPressed: () {},
-                          elevation: 2.0,
-                          fillColor: Colors.white,
-                          child: _image == null
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.photo_camera_rounded,
-                                    size: 20.0,
-                                    color: Color(0xFFB0B0B0),
+                          RawMaterialButton(
+                            onPressed: () {},
+                            elevation: 2.0,
+                            padding: EdgeInsets.all(0),
+                            fillColor: Colors.white,
+                            child: _image == null
+                                ? IconButton(
+                                    icon: Icon(
+                                      Icons.photo_camera_rounded,
+                                      size: 20.0,
+                                      color: Color(0xFFB0B0B0),
+                                    ),
+                                    onPressed: getImage)
+                                : IconButton(
+                                    iconSize: 50,
+                                    onPressed: getImage,
+                                    icon: CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: Image.file(
+                                        _image,
+                                        fit: BoxFit.cover,
+                                      ).image,
+                                    ),
                                   ),
-                                  onPressed: getImage)
-                              : CircleAvatar(
-                                  radius: 30,
-                                  backgroundImage: Image.file(
-                                    _image,
-                                    fit: BoxFit.cover,
-                                  ).image,
-                                ),
-                          padding: EdgeInsets.all(22.0),
-                          shape: CircleBorder(),
-                        ),
-                        TextFieldTitle('BUSINESS NAME', kSingupLabel),
-                        SizedBox(height: 10),
-                        GetTextField('Decon'),
-                        SizedBox(height: 10),
-                        TextFieldTitle('BUSINESS NUMBER', kSingupLabel),
-                        SizedBox(height: 10),
-                        GetTextField('+972------'),
-                        SizedBox(height: 10),
-                        TextFieldTitle('ADRESS', kSingupLabel),
-                        SizedBox(height: 10),
-                        GetTextField('E.g. Berlin, Berlinka st'),
-                        SizedBox(height: 10),
-                        TextFieldTitle('WORKING HOURS', kSingupLabel),
-                        //TextFieldTitle('24/7', kSecondaryText),
-                        SizedBox(height: 10),
-                      ],
+                            shape: CircleBorder(),
+                          ),
+                          TextFieldTitle('BUSINESS NAME', kSingupLabel),
+                          SizedBox(height: 10),
+                          GetTextField('Decon'),
+                          SizedBox(height: 10),
+                          TextFieldTitle('BUSINESS NUMBER', kSingupLabel),
+                          SizedBox(height: 10),
+                          GetTextField('+972------'),
+                          SizedBox(height: 10),
+                          TextFieldTitle('ADRESS', kSingupLabel),
+                          SizedBox(height: 10),
+                          GetTextField('E.g. Berlin, Berlinka st'),
+                          SizedBox(height: 10),
+                          TextFieldTitle('WORKING HOURS', kSingupLabel),
+                          //TextFieldTitle('24/7', kSecondaryText),
+                          SizedBox(height: 10),
+                        ],
+                      ),
                     ),
-                  ),
-                  Column(
-                    children: [
-                      ListTile(
-                        tileColor: Colors.white,
-                        title: Text('24/7'),
-                        trailing: CupertinoSwitch(
-                          value: check1,
-                          activeColor: Color(0xFF5F25DD),
-                          onChanged: (bool value) {
+                    Column(
+                      children: [
+                        ListTile(
+                          tileColor: Colors.white,
+                          title: Text('24/7'),
+                          trailing: CupertinoSwitch(
+                            value: check1,
+                            activeColor: Color(0xFF5F25DD),
+                            onChanged: (bool value) {
+                              setState(() {
+                                check1 = value;
+                                if (check2) {
+                                  check2 = !check2;
+                                }
+                                if (check3) {
+                                  check3 = !check3;
+                                }
+                              });
+                            },
+                          ),
+                          onTap: () {
                             setState(() {
-                              check1 = value;
+                              check1 = !check1;
                               if (check2) {
                                 check2 = !check2;
                               }
@@ -123,11 +142,24 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                             });
                           },
                         ),
-                        onTap: () {
+                      ],
+                    ),
+                    Divider(
+                      height: 0.0,
+                      thickness: 1,
+                      color: Color(0xFFE1E1E1),
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      title: Text('Every day from:'),
+                      trailing: CupertinoSwitch(
+                        activeColor: Color(0xFF5F25DD),
+                        value: check2,
+                        onChanged: (bool value) {
                           setState(() {
-                            check1 = !check1;
-                            if (check2) {
-                              check2 = !check2;
+                            check2 = value;
+                            if (check1) {
+                              check1 = !check1;
                             }
                             if (check3) {
                               check3 = !check3;
@@ -135,22 +167,9 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                           });
                         },
                       ),
-                    ],
-                  ),
-                  Divider(
-                    height: 0.0,
-                    thickness: 1,
-                    color: Color(0xFFE1E1E1),
-                  ),
-                  ListTile(
-                    tileColor: Colors.white,
-                    title: Text('Every day from:'),
-                    trailing: CupertinoSwitch(
-                      activeColor: Color(0xFF5F25DD),
-                      value: check2,
-                      onChanged: (bool value) {
+                      onTap: () {
                         setState(() {
-                          check2 = value;
+                          check2 = !check2;
                           if (check1) {
                             check1 = !check1;
                           }
@@ -160,33 +179,33 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                         });
                       },
                     ),
-                    onTap: () {
-                      setState(() {
-                        check2 = !check2;
-                        if (check1) {
-                          check1 = !check1;
-                        }
-                        if (check3) {
-                          check3 = !check3;
-                        }
-                      });
-                    },
-                  ),
-                  check2 ? GetHours(hours: hours) : Container(),
-                  Divider(
-                    height: 0.0,
-                    thickness: 1,
-                    color: Color(0xFFE1E1E1),
-                  ),
-                  ListTile(
-                    tileColor: Colors.white,
-                    title: Text('Customized'),
-                    trailing: CupertinoSwitch(
-                      activeColor: Color(0xFF5F25DD),
-                      value: check3,
-                      onChanged: (bool value) {
+                    check2 ? GetHours(hours: hours) : Container(),
+                    Divider(
+                      height: 0.0,
+                      thickness: 1,
+                      color: Color(0xFFE1E1E1),
+                    ),
+                    ListTile(
+                      tileColor: Colors.white,
+                      title: Text('Customized'),
+                      trailing: CupertinoSwitch(
+                        activeColor: Color(0xFF5F25DD),
+                        value: check3,
+                        onChanged: (bool value) {
+                          setState(() {
+                            check3 = value;
+                            if (check2) {
+                              check2 = !check2;
+                            }
+                            if (check1) {
+                              check1 = !check1;
+                            }
+                          });
+                        },
+                      ),
+                      onTap: () {
                         setState(() {
-                          check3 = value;
+                          check3 = !check3;
                           if (check2) {
                             check2 = !check2;
                           }
@@ -196,161 +215,37 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                         });
                       },
                     ),
-                    onTap: () {
-                      setState(() {
-                        check3 = !check3;
-                        if (check2) {
-                          check2 = !check2;
-                        }
-                        if (check1) {
-                          check1 = !check1;
-                        }
-                      });
-                    },
-                  ),
-                  check3 ? GetSwitch('Monday', hours) : Container(),
-                  check3 ? GetSwitch('Thursday', hours) : Container(),
-                  check3 ? GetSwitch('Wednesday', hours) : Container(),
-                  check3 ? GetSwitch('Tuesday', hours) : Container(),
-                  check3 ? GetSwitch('Friday', hours) : Container(),
-                  check3 ? GetSwitch('Saturday', hours) : Container(),
-                  check3 ? GetSwitch('Sunday', hours) : Container(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
-                        color: Color(0xFFE5E5E5),
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
-                          child: UnicornOutlineButton(
-                            strokeWidth: 2,
-                            radius: 6,
-                            gradient: LinearGradient(
-                                colors: [Color(0xFF5F25DD), Color(0xFFFD67B0)]),
-                            child: Text('NEXT', style: kPurpleButtonText),
-                            onPressed: () {
-                              //Navigator.pushNamed(context, SignUpFinish().id);
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => SignUpFinish()));
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                    check3 ? GetSwitch('Monday', hours) : Container(),
+                    check3 ? GetSwitch('Thursday', hours) : Container(),
+                    check3 ? GetSwitch('Wednesday', hours) : Container(),
+                    check3 ? GetSwitch('Tuesday', hours) : Container(),
+                    check3 ? GetSwitch('Friday', hours) : Container(),
+                    check3 ? GetSwitch('Saturday', hours) : Container(),
+                    check3 ? GetSwitch('Sunday', hours) : Container(),
+                  ],
+                ),
               ),
-            ),
-          ), /* add child content here */
-        ),
-      ),
-    );
-  }
-}
-
-class GetSwitch extends StatefulWidget {
-  String title;
-  List<String> hours;
-  bool check = false;
-  GetSwitch(this.title, this.hours);
-  @override
-  _GetSwitchState createState() => _GetSwitchState();
-}
-
-class _GetSwitchState extends State<GetSwitch> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Column(
-        children: [
-          ListTile(
-            tileColor: Color(0xFFFAFAFA),
-            title: Text(widget.title),
-            trailing: CupertinoSwitch(
-              activeColor: Color(0xFF5F25DD),
-              value: widget.check,
-              onChanged: (bool value) {
-                setState(() {
-                  widget.check = value;
-                });
-              },
-            ),
-            onTap: () {
-              setState(() {
-                widget.check = !widget.check;
-              });
-            },
+            ), /* add child content here */
           ),
-          widget.check ? GetHours(hours: widget.hours) : Container(),
-        ],
+        ),
       ),
-    );
-  }
-}
-
-class GetHours extends StatelessWidget {
-  GetHours({this.hours});
-  final List<String> hours;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: Row(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GetList(hours[0], hours),
-          )),
-          Expanded(child: GetList(hours[0], hours)),
-        ],
-      ),
-    );
-  }
-}
-
-class TextFieldTitle extends StatelessWidget {
-  TextFieldTitle(this.title, this.style);
-  final String title;
-  final TextStyle style;
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: style,
-        ),
-      ],
-    );
-  }
-}
-
-class GetTextField extends StatelessWidget {
-  GetTextField(this.placeholder);
-  final String placeholder;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        hintText: placeholder,
-        hintStyle: kSingupPlaceHolder,
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFFE9E9E9), width: 1.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Color(0xFFE9E9E9), width: 1.0),
-        ),
-        fillColor: Colors.white,
-        filled: true,
+      footer: Container(
+        color: Color(0xFFC4C4C4),
+        padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
+        child: BorderGradientButton(
+            child: Text(
+              'NEXT',
+              style: kPurpleButtonText,
+            ),
+            backround: Color(0xFFC4C4C4),
+            gradient: LinearGradient(
+              colors: <Color>[Color(0xFFFD67B0), Color(0xFF5F25DD)],
+            ),
+            onPressed: () {
+              //Navigator.pushNamed(context, SignUpFinish().id);
+              Navigator.push(context,
+                  CupertinoPageRoute(builder: (context) => SignUpFinish()));
+            }),
       ),
     );
   }
