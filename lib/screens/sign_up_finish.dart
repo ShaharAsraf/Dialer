@@ -11,8 +11,6 @@ class SignUpFinish extends StatefulWidget {
 }
 
 class _SignUpFinishState extends State<SignUpFinish> {
-  List<String> Countries = ['Israel', 'US', 'Eng', 'France'];
-  List<String> numbers = ['054311313', '054334313', '0541212312', '052872313'];
   List<Numbers> numberList = <Numbers>[
     Numbers(
         number: '+972 50 1020333',
@@ -33,6 +31,14 @@ class _SignUpFinishState extends State<SignUpFinish> {
         imageSource: 'assets/first-gold.png',
         showIcon: false)
   ];
+  List<Countries> countryList = <Countries>[
+    Countries(
+        country: 'Israel', imageSource: 'assets/israel.png', showIcon: false),
+    Countries(
+        country: 'France', imageSource: 'assets/israel.png', showIcon: false),
+    Countries(
+        country: 'Spain', imageSource: 'assets/israel.png', showIcon: false),
+  ];
   Numbers selectedUser;
   bool checkBoxValue = false;
   @override
@@ -44,7 +50,7 @@ class _SignUpFinishState extends State<SignUpFinish> {
             image: DecorationImage(
               image: AssetImage("assets/homeBG.png"),
               alignment: Alignment.topCenter,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
           child: SafeArea(
@@ -64,10 +70,12 @@ class _SignUpFinishState extends State<SignUpFinish> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextFieldTitle('COUNTRY', kSingupLabel),
-                        GetList('Search', Countries),
+                        SizedBox(height: 5),
+                        countriesLine(countryList),
                         SizedBox(height: 20),
                         TextFieldTitle('VIRTUAL NUMBERS', kSingupLabel),
-                        GetList('None', numbers),
+                        SizedBox(height: 5),
+                        numbersLine(numberList),
                         CheckboxListTile(
                           title: Text(
                               'By joining Dialer you agree to our Terms & Conditions and Privacy Policy.'),
@@ -82,8 +90,7 @@ class _SignUpFinishState extends State<SignUpFinish> {
                         ),
                         SizedBox(height: 170),
                         // CountriesList('Israel', 'assets/israel.png'),
-                        SelectItem(numberList),
-
+                        //SelectItem(numberList),
                         RaisedGradientButton(
                             child: Text(
                               'FINISH',
@@ -110,60 +117,102 @@ class _SignUpFinishState extends State<SignUpFinish> {
   }
 }
 
-class SelectItem extends StatefulWidget {
+class numbersLine extends StatefulWidget {
   List<Numbers> numbersList;
-  SelectItem(this.numbersList);
+  numbersLine(this.numbersList);
+
   @override
-  _SelectItemState createState() => _SelectItemState();
+  _numbersLineState createState() => _numbersLineState();
 }
 
-class _SelectItemState extends State<SelectItem> {
+class _numbersLineState extends State<numbersLine> {
   bool check = false;
   bool line = false;
-  Numbers obj;
+  Numbers currentLine = Numbers(
+      number: '',
+      price: '',
+      goldOrSilver: '',
+      imageSource: '',
+      showIcon: false);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          line = !line;
-        });
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        color: Colors.white,
-        child: Column(
-          children: [
-            check
-                ? Column(children: [])
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('None'),
-                      Icon(Icons.keyboard_arrow_down_rounded),
-                    ],
-                  ),
-            line
-                ? Column(children: [
-                    for (var i in widget.numbersList)
-                      Numbers(
+    return Column(
+      children: [
+        check
+            ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    line = !line;
+                  });
+                },
+                child: currentLine.getNumberLine(true))
+            : InkWell(
+                onTap: () {
+                  setState(() {
+                    line = !line;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('None', style: kSingupPlaceHolder),
+                          Icon(Icons.keyboard_arrow_down_rounded),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+        line
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                ),
+                child: Column(children: [
+                  for (var i in widget.numbersList)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          currentLine.setGoldOrSilver(i.goldOrSilver);
+                          currentLine.setImageSource(i.imageSource);
+                          currentLine.setPrice(i.price);
+                          currentLine.setNumber(i.number);
+                          currentLine.setShowIcon(true);
+                          check = true;
+                          line = !line;
+                        });
+                      },
+                      child: Numbers(
                         number: i.number,
                         price: i.price,
                         goldOrSilver: i.goldOrSilver,
                         imageSource: i.imageSource,
                         showIcon: i.showIcon,
-                      ),
-                  ])
-                : Container(),
-          ],
-        ),
-      ),
+                      ).getNumberLine(false),
+                    ),
+                ]),
+              )
+            : Container(),
+      ],
     );
   }
 }
 
-class Numbers extends StatelessWidget {
+class Numbers {
   String number;
   String price;
   String goldOrSilver;
@@ -177,133 +226,249 @@ class Numbers extends StatelessWidget {
     this.imageSource,
     this.showIcon = false,
   });
+
+  void setNumber(String x) {
+    number = x;
+  }
+
+  void setPrice(String x) {
+    price = x;
+  }
+
+  void setGoldOrSilver(String x) {
+    goldOrSilver = x;
+  }
+
+  void setImageSource(String x) {
+    imageSource = x;
+  }
+
+  void setShowIcon(bool x) {
+    showIcon = x;
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        return Numbers(
-          number: number,
-          showIcon: showIcon,
-          goldOrSilver: goldOrSilver,
-          price: price,
-          imageSource: imageSource,
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-        color: Colors.white,
-        child: Row(
-          children: [
-            Expanded(
-              flex: 50,
-              child: Text(
-                number,
-                style: kNumberText,
+  Widget getNumberLine(bool check) {
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.white,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 50,
+                child: Text(
+                  number,
+                  style: kNumberText,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 20,
-              child: Text(
-                price,
-                style: kNumberPriceText,
+              Expanded(
+                flex: 20,
+                child: Text(
+                  price,
+                  style: kNumberPriceText,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 10,
-              child: Text(
-                goldOrSilver,
-                style: goldOrSilver == 'Gold' ? kGold : kSilver,
+              Expanded(
+                flex: 10,
+                child: Text(
+                  goldOrSilver,
+                  style: goldOrSilver == 'Gold' ? kGold : kSilver,
+                ),
               ),
-            ),
-            Expanded(
-              flex: 10,
-              child: Image(
-                image: AssetImage(imageSource),
+              Expanded(
+                flex: 10,
+                child: Image(
+                  image: AssetImage(imageSource),
+                ),
               ),
-            ),
-            showIcon ? Icon(Icons.keyboard_arrow_down_rounded) : Container(),
-          ],
+              showIcon ? Icon(Icons.keyboard_arrow_down_rounded) : Container(),
+            ],
+          ),
         ),
-      ),
+        Divider(
+          color: Color(0xFFE9E9E9),
+          height: 0,
+          indent: 20,
+          endIndent: 20,
+          thickness: 1,
+        ),
+        check
+            ? SizedBox(
+                height: 10,
+              )
+            : Container(),
+      ],
     );
   }
 }
 
-class CountriesList extends StatelessWidget {
-  final String imageSource;
-  final String country;
-  CountriesList(this.country, this.imageSource);
+class countriesLine extends StatefulWidget {
+  List<Countries> countriesList;
+  countriesLine(this.countriesList);
+
+  @override
+  _countriesLineState createState() => _countriesLineState();
+}
+
+class _countriesLineState extends State<countriesLine> {
+  bool check = false;
+  bool line = false;
+  Countries currentLine =
+      Countries(country: '', imageSource: '', showIcon: false);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      color: Colors.white,
-      child: Row(
-        children: [
-          Image(
-            image: AssetImage(imageSource),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            country,
-            style: kCountryText,
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        check
+            ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    line = !line;
+                  });
+                },
+                child: currentLine.getCountryLine(true))
+            : InkWell(
+                onTap: () {
+                  setState(() {
+                    line = !line;
+                  });
+                },
+                child: Column(
+                  children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.white,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Search...',
+                            style: kSingupPlaceHolder,
+                          ),
+                          Icon(Icons.keyboard_arrow_down_rounded),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+        Divider(
+          color: Color(0xFFE9E9E9),
+          height: 0,
+          indent: 20,
+          endIndent: 20,
+          thickness: 1,
+        ),
+        line
+            ? Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: Colors.white,
+                ),
+                child: Column(children: [
+                  for (var i in widget.countriesList)
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          currentLine.setCountry(i.country);
+                          currentLine.setImageSource(i.imageSource);
+                          currentLine.setShowIcon(true);
+                          check = true;
+                          line = !line;
+                        });
+                      },
+                      child: Countries(
+                        country: i.country,
+                        imageSource: i.imageSource,
+                        showIcon: i.showIcon,
+                      ).getCountryLine(false),
+                    ),
+                ]),
+              )
+            : Container(),
+      ],
     );
   }
 }
 
-//
-// DropdownButton<Numbers>(
-// hint: Text("Select item"),
-// value: selectedUser,
-// onChanged: (Numbers Value) {
-// setState(() {
-// selectedUser = Value;
-// });
-// },
-// items: numberList.map((Numbers user) {
-// return DropdownMenuItem<Numbers>(
-// value: user,
-// child: Row(
-// children: [
-// Expanded(
-// flex: 50,
-// child: Text(
-// user.number,
-// style: kNumberText,
-// ),
-// ),
-// Expanded(
-// flex: 20,
-// child: Text(
-// user.price,
-// style: kNumberPriceText,
-// ),
-// ),
-// Expanded(
-// flex: 10,
-// child: Text(
-// user.goldOrSilver,
-// style: user.goldOrSilver == 'Gold'
-// ? kGold
-//     : kSilver,
-// ),
-// ),
-// Expanded(
-// flex: 10,
-// child: Image(
-// image: AssetImage(user.imageSource),
-// ),
-// ),
-// user.showIcon
-// ? Icon(Icons.keyboard_arrow_down_rounded)
-//     : Container(),
-// ],
-// ),
-// );
-// }).toList(),
-// ),
+class Countries {
+  String country;
+  String imageSource;
+  bool showIcon;
+
+  Countries({
+    @required this.country,
+    @required this.imageSource,
+    this.showIcon = false,
+  });
+
+  void setCountry(String x) {
+    country = x;
+  }
+
+  void setImageSource(String x) {
+    imageSource = x;
+  }
+
+  void setShowIcon(bool x) {
+    showIcon = x;
+  }
+
+  @override
+  Widget getCountryLine(bool check) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.white,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Image(
+                  image: AssetImage(imageSource),
+                ),
+              ),
+              Expanded(
+                flex: 8,
+                child: Text(
+                  country,
+                  style: kCountryText,
+                ),
+              ),
+              showIcon ? Icon(Icons.keyboard_arrow_down_rounded) : Container(),
+            ],
+          ),
+        ),
+        Divider(
+          color: Color(0xFFE9E9E9),
+          height: 0,
+          indent: 20,
+          endIndent: 20,
+          thickness: 1,
+        ),
+        check
+            ? SizedBox(
+                height: 10,
+              )
+            : Container(),
+      ],
+    );
+  }
+}

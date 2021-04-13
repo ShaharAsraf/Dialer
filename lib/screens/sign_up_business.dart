@@ -219,7 +219,7 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        color: Colors.white,
+                        color: Color(0xFFE5E5E5),
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(20, 30, 20, 30),
                           child: UnicornOutlineButton(
