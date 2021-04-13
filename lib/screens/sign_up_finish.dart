@@ -93,7 +93,7 @@ class _SignUpFinishState extends State<SignUpFinish> {
                               });
                             },
                           ),
-                          SizedBox(height: 171),
+                          SizedBox(height: 170),
                           // CountriesList('Israel', 'assets/israel.png'),
                           //SelectItem(numberList),
                         ],
