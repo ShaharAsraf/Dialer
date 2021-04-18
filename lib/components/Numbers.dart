@@ -140,7 +140,9 @@ class Numbers {
             borderRadius: BorderRadius.circular(6),
             color: Colors.white,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: imageSource == ''
+              ? EdgeInsets.symmetric(horizontal: 20, vertical: 13)
+              : EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           child: Row(
             children: [
               Expanded(
@@ -164,12 +166,14 @@ class Numbers {
                   style: goldOrSilver == 'Gold' ? kGold : kSilver,
                 ),
               ),
-              Expanded(
-                flex: 10,
-                child: Image(
-                  image: AssetImage(imageSource),
-                ),
-              ),
+              imageSource == ''
+                  ? Container()
+                  : Expanded(
+                      flex: 10,
+                      child: Image(
+                        image: AssetImage(imageSource),
+                      ),
+                    ),
               showIcon ? Icon(Icons.keyboard_arrow_down_rounded) : Container(),
             ],
           ),

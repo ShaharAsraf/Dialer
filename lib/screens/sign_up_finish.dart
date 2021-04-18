@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_layouts/flutter_layouts.dart';
 import 'package:shlomi_project/components/RestComponents.dart';
@@ -16,6 +17,18 @@ class SignUpFinish extends StatefulWidget {
 
 class _SignUpFinishState extends State<SignUpFinish> {
   List<Numbers> numberList = <Numbers>[
+    Numbers(
+        number: '123 456789',
+        price: '',
+        goldOrSilver: '',
+        imageSource: '',
+        showIcon: false),
+    Numbers(
+        number: '212 1211212',
+        price: '',
+        goldOrSilver: '',
+        imageSource: '',
+        showIcon: false),
     Numbers(
         number: '+972 50 1020333',
         price: '5\$/month',
@@ -82,8 +95,24 @@ class _SignUpFinishState extends State<SignUpFinish> {
                           numbersLine(numberList),
                           CheckboxListTile(
                             activeColor: Color(0xFF5F25DD),
-                            title: Text(
-                                'By joining Dialer you agree to our Terms & Conditions and Privacy Policy.'),
+                            title: RichText(
+                              text: TextSpan(
+                                style: kTermsStyle,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text:
+                                          'By joining Dialer you agree to our '),
+                                  TextSpan(
+                                      text:
+                                          'Terms & Conditions and Privacy Policy.',
+                                      style: kLinkStyle,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          print('Terms of Service"');
+                                        }),
+                                ],
+                              ),
+                            ),
                             controlAffinity: ListTileControlAffinity.leading,
                             value: checkBoxValue,
                             contentPadding: EdgeInsets.all(0),

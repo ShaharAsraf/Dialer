@@ -67,3 +67,16 @@ const kSilver = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 14,
 );
+
+const kTermsStyle = TextStyle(
+  color: Color(0xFF4A4A4A),
+  fontWeight: FontWeight.w400,
+  fontSize: 12,
+);
+
+const kLinkStyle = TextStyle(
+  color: Color(0xFF4A4A4A),
+  decoration: TextDecoration.underline,
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+);

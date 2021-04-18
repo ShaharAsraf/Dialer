@@ -126,7 +126,7 @@ class Countries {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(6),
             color: Colors.white,
@@ -136,6 +136,7 @@ class Countries {
               Expanded(
                 flex: 1,
                 child: Image(
+                  alignment: Alignment.centerLeft,
                   image: AssetImage(imageSource),
                 ),
               ),

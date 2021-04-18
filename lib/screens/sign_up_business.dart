@@ -20,7 +20,8 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
   bool check3 = false;
   File _image;
   final picker = ImagePicker();
-  List<String> hours = ['8:00', '9:00', '10:00', '11:00', '12:00'];
+  List<String> startHours = ['8:00', '9:00', '10:00', '11:00', '12:00'];
+  List<String> endingHours = ['14:00', '15:00', '16:00', '17:00', '18:00'];
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
@@ -179,7 +180,10 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                         });
                       },
                     ),
-                    check2 ? GetHours(hours: hours) : Container(),
+                    check2
+                        ? GetHours(
+                            startHours: startHours, endHours: endingHours)
+                        : Container(),
                     Divider(
                       height: 0.0,
                       thickness: 1,
@@ -215,13 +219,27 @@ class _SignUpBusinessState extends State<SignUpBusiness> {
                         });
                       },
                     ),
-                    check3 ? GetSwitch('Monday', hours) : Container(),
-                    check3 ? GetSwitch('Thursday', hours) : Container(),
-                    check3 ? GetSwitch('Wednesday', hours) : Container(),
-                    check3 ? GetSwitch('Tuesday', hours) : Container(),
-                    check3 ? GetSwitch('Friday', hours) : Container(),
-                    check3 ? GetSwitch('Saturday', hours) : Container(),
-                    check3 ? GetSwitch('Sunday', hours) : Container(),
+                    check3
+                        ? GetSwitch('Monday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Thursday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Wednesday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Tuesday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Friday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Saturday', startHours, endingHours)
+                        : Container(),
+                    check3
+                        ? GetSwitch('Sunday', startHours, endingHours)
+                        : Container(),
                   ],
                 ),
               ),

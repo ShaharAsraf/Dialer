@@ -51,9 +51,10 @@ class _GetListState extends State<GetList> {
 
 class GetSwitch extends StatefulWidget {
   String title;
-  List<String> hours;
+  List<String> startHours;
+  List<String> endHours;
   bool check = false;
-  GetSwitch(this.title, this.hours);
+  GetSwitch(this.title, this.startHours, this.endHours);
   @override
   _GetSwitchState createState() => _GetSwitchState();
 }
@@ -84,7 +85,10 @@ class _GetSwitchState extends State<GetSwitch> {
               });
             },
           ),
-          widget.check ? GetHours(hours: widget.hours) : Container(),
+          widget.check
+              ? GetHours(
+                  startHours: widget.startHours, endHours: widget.endHours)
+              : Container(),
         ],
       ),
     );
@@ -92,8 +96,9 @@ class _GetSwitchState extends State<GetSwitch> {
 }
 
 class GetHours extends StatelessWidget {
-  GetHours({this.hours});
-  final List<String> hours;
+  GetHours({this.startHours, this.endHours});
+  final List<String> startHours;
+  final List<String> endHours;
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +109,9 @@ class GetHours extends StatelessWidget {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: GetList(hours[0], hours),
+            child: GetList(startHours[0], startHours),
           )),
-          Expanded(child: GetList(hours[0], hours)),
+          Expanded(child: GetList(endHours[0], endHours)),
         ],
       ),
     );
